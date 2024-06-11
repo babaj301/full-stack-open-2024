@@ -40,9 +40,8 @@ const App = () => {
 
   const handleRandom = () => {
     const randomNumber = Math.floor(Math.random() * anecdoteLength);
-    console.log(randomNumber);
+
     setSelected(randomNumber);
-    console.log(votes);
   };
 
   return (
