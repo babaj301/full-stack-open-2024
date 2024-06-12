@@ -3,10 +3,10 @@ const Header = ({ courses }) => {
     <div>
       {courses.map((course, i) => {
         return (
-          <div>
+          <div key={course.name}>
             <h1 key={i}>{course.name}</h1>
-            <Content courses={courses} />
-            <Total course={course} />
+            <Content key={course.exercises} courses={courses} />
+            <Total key={course.id} course={course} />
           </div>
         );
       })}
