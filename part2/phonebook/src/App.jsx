@@ -32,7 +32,9 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     } else {
-      phoneServices.create(newObject);
+      phoneServices.create(newObject).catch((error) => {
+        alert(`Not succesful`, error);
+      });
 
       setPersons(persons.concat(newObject));
       setNewName("");
@@ -59,6 +61,11 @@ const App = () => {
     setInput(event.target.value);
   };
 
+  const handleDelete = (event) => {
+    const id = event.target.id;
+    phoneServices.removePerson(id);
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -76,7 +83,11 @@ const App = () => {
       />
       <h3>Numbers</h3>
 
-      <PersonDisplay key={persons.name} filtered={filtered} />
+      <PersonDisplay
+        key={persons.name}
+        filtered={filtered}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 };

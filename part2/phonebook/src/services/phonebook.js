@@ -17,8 +17,16 @@ const edit = (id, newObject) => {
   return request.then((response) => response.data);
 };
 
+const removePerson = (id) => {
+  const request = axios.delete(`${url}/${id}`);
+  return request.then((response) => {
+    console.log(`Deleted post with Id ${id}`);
+  });
+};
+
 export default {
   getData,
   create,
   edit,
+  removePerson,
 };
