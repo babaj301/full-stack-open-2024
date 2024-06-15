@@ -63,7 +63,9 @@ const App = () => {
 
   const handleDelete = (event) => {
     const id = event.target.id;
-    phoneServices.removePerson(id);
+
+    if (window.confirm(`Are you sure you wan to delete that number`))
+      phoneServices.removePerson(id);
   };
 
   return (

@@ -13,13 +13,13 @@ const create = (newObject) => {
 };
 
 const edit = (id, newObject) => {
-  const request = axios.put(url, `${url}/${id}`, newObject);
+  const request = axios.put(`${url}/${id}`, newObject);
   return request.then((response) => response.data);
 };
 
 const removePerson = (id) => {
   const request = axios.delete(`${url}/${id}`);
-  return request.then((response) => {
+  return request.then(() => {
     console.log(`Deleted post with Id ${id}`);
   });
 };
