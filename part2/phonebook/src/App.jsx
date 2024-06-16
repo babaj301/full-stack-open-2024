@@ -22,15 +22,28 @@ const App = () => {
 
     const newObject = { name: newName, number: newNumber };
 
-    const exists = (value) =>
-      value.name === newObject.name && value.number === newObject.number;
+    const existedObject = persons.find((obj) => {
+      return newName === obj.name;
+    });
 
-    const bool = persons.some(exists);
+    const idForChange = existedObject.id;
 
-    if (bool) {
-      alert(`${newName} is already added to the phonebook`);
-      setNewName("");
-      setNewNumber("");
+    console.log(existedObject);
+
+    if (existedObject) {
+      if (
+        window.confirm(
+          `${existedObject.name} is already added to phonebook, replace the old number`
+        )
+      ) {
+        phoneServices.edit(idForChange, {
+          ...existedObject,
+          number: newNumber,
+        });
+
+        setNewName("");
+        setNewNumber("");
+      }
     } else {
       phoneServices.create(newObject).catch((error) => {
         alert(`Not succesful`, error);
@@ -46,7 +59,7 @@ const App = () => {
     return person.name.toLowerCase().includes(input.toLowerCase());
   });
 
-  console.log(filtered);
+  // console.log(filtered);
 
   const handleName = (event) => {
     setNewName(event.target.value);
@@ -83,6 +96,7 @@ const App = () => {
         newNumber={newNumber}
         handleNumber={handleNumber}
       />
+
       <h3>Numbers</h3>
 
       <PersonDisplay
