@@ -4,12 +4,15 @@ import Form from "./components/Form";
 import PersonDisplay from "./components/Persons";
 import axios from "axios";
 import phoneServices from "./services/phonebook";
+import Notification from "./components/Notification";
+import "./index.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [input, setInput] = useState("");
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     phoneServices.getData().then((returnedData) => {
@@ -26,11 +29,9 @@ const App = () => {
       return newName === obj.name;
     });
 
-    const idForChange = existedObject.id;
-
-    console.log(existedObject);
-
     if (existedObject) {
+      const idForChange = existedObject.id;
+
       if (
         window.confirm(
           `${existedObject.name} is already added to phonebook, replace the old number`
@@ -40,7 +41,6 @@ const App = () => {
           ...existedObject,
           number: newNumber,
         });
-
         setNewName("");
         setNewNumber("");
       }
@@ -48,7 +48,10 @@ const App = () => {
       phoneServices.create(newObject).catch((error) => {
         alert(`Not succesful`, error);
       });
-
+      setNotification(`Added ${newName}`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
       setPersons(persons.concat(newObject));
       setNewName("");
       setNewNumber("");
@@ -84,6 +87,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={notification} />
 
       <Filter input={input} handleInput={handleInput} />
 
