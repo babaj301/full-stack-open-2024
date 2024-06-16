@@ -5,6 +5,7 @@ import PersonDisplay from "./components/Persons";
 import axios from "axios";
 import phoneServices from "./services/phonebook";
 import Notification from "./components/Notification";
+import Error from "./components/Error";
 import "./index.css";
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [input, setInput] = useState("");
   const [notification, setNotification] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     phoneServices.getData().then((returnedData) => {
@@ -41,6 +43,7 @@ const App = () => {
           ...existedObject,
           number: newNumber,
         });
+
         setNewName("");
         setNewNumber("");
       }
@@ -81,7 +84,12 @@ const App = () => {
     const id = event.target.id;
 
     if (window.confirm(`Are you sure you wan to delete that number`))
-      phoneServices.removePerson(id);
+      phoneServices.removePerson(id).catch((error) => {
+        setError(`That person has already been removed from server`);
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
+      });
   };
 
   return (
@@ -89,6 +97,7 @@ const App = () => {
       <h2>Phonebook</h2>
 
       <Notification message={notification} />
+      <Error message={error} />
 
       <Filter input={input} handleInput={handleInput} />
 
