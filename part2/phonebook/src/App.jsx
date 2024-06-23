@@ -65,7 +65,7 @@ const App = () => {
     return person.name.toLowerCase().includes(input.toLowerCase());
   });
 
-  console.log(filtered);
+  // console.log(filtered);
 
   const handleName = (event) => {
     setNewName(event.target.value);
